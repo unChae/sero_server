@@ -1,0 +1,13 @@
+{ 
+    "development":
+    { 
+        "username": "root", 
+        "password": "plmok123!", 
+        "database": "seropostDB", 
+        "host": "database-1.corgnowzw5j9.ap-northeast-2.rds.amazonaws.com", 
+        "dialect": "mysql", 
+        "timezone": "+09:00",
+        "operatorAliases" : false,
+        "logging": false
+    } 
+}

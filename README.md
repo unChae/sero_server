@@ -17,23 +17,23 @@ del 데이터 삭제
 ```
 - api/web
     - [web_fuc_login]로그인
-        - `자체로그인 [us_social_value, us_phone_number, us_password]`
-        - `소셜로그인 [us_social_value, us_social_id]`
+        - `자체로그인 [usSocialValue, usPhoneNumber, usPassword]`
+        - `소셜로그인 [usSocialValue, usSocialId]`
     - [web_fuc_sms]메세지 전송
-        - `[us_phone_number]`
+        - `[cePhoneNumber]`
     - [web_chk_number]인증 코드 확인
-        - `[us_phone_number, code]`
+        - `[cePhoneNumber, ceNumber]`
     - [web_fuc_regist]회원가입
-        - `자체로그인 [us_social_value, us_phone_number, us_name, us_photo, us_address, us_address_detail, us_address_number, us_password]`
-        - `소셜로그인 [us_social_value, us_phone_number, us_name, us_photo, us_address, us_address_detail, us_address_number, us_social_id]`
+        - `자체로그인 [usSocialValue, usPhoneNumber, usName, usPhoto, usAddress, usAddressDetail, usAddressNumber, usPassword]`
+        - `소셜로그인 [usSocialValue, usPhoneNumber, usName, usPhoto, usAddress, usAddressDetail, usAddressNumber, usSocialId]`
     - [web_chk_token]토큰체크
-        - `[us_jwt_token, us_id]`
+        - `[usJwtToken, usId]`
     - [web_get_task]task 정보 반환
     - [web_upt_state]state 변경
     - [web_get_qrcode]qr데이터 반환
     
 - api/app
-    *유저*
+  - **유저**
     - [app_set_user]유저 정보 생성
     - [app_get_user]유저 정보 반환
     - [app_upt_user]유저 정보 변경
@@ -41,12 +41,12 @@ del 데이터 삭제
     - [app_upt_alarm]알람정보 변경
     - [app_fuc_sms]메세지 전송
     - [app_chk_number]인증 코드 확인
-    *문의사항*
+  - **문의사항**
     - [app_get_category]문의 카테고리 가져오기
     - [app_set_question]문의 생성
     - [app_del_question]문의 삭제
     - [app_get_question]문의 반환
-    *엽서*
+  - **엽서**
     - [app_get_count]엽서 갯 수 반환
     - [app_set_post]엽서 생성
     - [app_del_post]엽서 삭제
@@ -55,7 +55,7 @@ del 데이터 삭제
     - [app_get_sended]전송한 엽서 리스트 반환
     - [app_set_send]엽서 전송
     - [app_upt_status]전송 된 엽서 상태 변경
-    *주소*
+  - **주소**
     - [app_get_address]주소 반환
     - [app_del_address]주소 삭제
     - [app_set_address]주소 등록
