@@ -18,7 +18,26 @@ const storage = multerS3({
   contentType: multerS3.AUTO_CONTENT_TYPE,
   acl: 'public-read', 
   shouldTransform: function (req, file, cb) {
-    cb(null, /^image/i.test(file.mimetype))
+    let {usPhoneNumber, poId} = req.body;
+    let fileName = file.fieldname;
+    let date = moment().format('YYYYMMDDHHmmss');
+    let type = file.mimetype;
+    type = type.split('/')[1];
+    if(!type) {
+      type = file.mimetype;
+    }
+    switch(fileName){
+      case 'poPhoto':
+        payload = `${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.png`;
+        break;
+      case 'poRecord':
+        payload = `${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.png`;
+        break;
+      case 'usPhoto':
+        payload = `${usPhoneNumber}/user/${file.fieldname}.png`;
+        break;
+    }
+    cb(null, payload);
   },
   transforms: [{
     id: 'original',
@@ -33,13 +52,13 @@ const storage = multerS3({
       }
       switch(fileName){
         case 'poPhoto':
-          payload = `${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.${type}`;
+          payload = `${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.png`;
           break;
         case 'poRecord':
-          payload = `${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.${type}`;
+          payload = `${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.png`;
           break;
         case 'usPhoto':
-          payload = `${usPhoneNumber}/user/${file.fieldname}.${type}`;
+          payload = `${usPhoneNumber}/user/${file.fieldname}.png`;
           break;
       }
       cb(null, payload);
@@ -60,13 +79,13 @@ const storage = multerS3({
       }
       switch(fileName){
         case 'poPhoto':
-          payload = `resized/${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.${type}`;
+          payload = `resized/${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.png`;
           break;
         case 'poRecord':
-          payload = `resized/${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.${type}`;
+          payload = `resized/${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.png`;
           break;
         case 'usPhoto':
-          payload = `resized/${usPhoneNumber}/user/${file.fieldname}.${type}`;
+          payload = `resized/${usPhoneNumber}/user/${file.fieldname}.png`;
           break;
       }
       cb(null, payload);

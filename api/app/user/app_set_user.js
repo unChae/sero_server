@@ -1,15 +1,16 @@
 // models
-const model = require('../../models');
+const model = require('../../../models');
 const User = model.user;
 
 // utils
-const response = require('../util/util_response');
-const hash = require('../util/util_hash');
+const response = require('../../util/util_response');
+const hash = require('../../util/util_hash');
 
 module.exports = async (req, res) => {
   console.log(['app_set_user']);
-  let {usSocialValue, usPhoneNumber, usName, usPhoto, usAddress, usAddressDetail, usAddressNumber, usPassword, usSocialId} = req.body;
+  let {usSocialValue, usPhoneNumber, usName, usAddress, usAddressDetail, usAddressNumber, usPassword, usSocialId} = req.body;
   let user;
+  let usPhoto = req.files[0].transforms[1].location.split('https://seropost-data.s3.ap-northeast-2.amazonaws.com/')[1];
   user = await User.findOne({
     where: {usSocialValue, usPhoneNumber}
   })
