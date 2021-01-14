@@ -1,6 +1,5 @@
 // models
 const model = require('../../models');
-const User = model.User;
 const Certification = model.certification;
 
 // utils
