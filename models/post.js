@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    poContent_photo: {
+    poContentPhoto: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },

@@ -6,7 +6,7 @@ const Certification = model.certification;
 const response = require('../util/util_response');
 
 module.exports = async (req,res) => {
-  console.log('[web_chk_number]');
+  console.log(['web_chk_number']);
   let {cePhoneNumber, ceNumber} = req.body;
   let certification = await Certification.findOne({
     raw: true, 
@@ -14,6 +14,7 @@ module.exports = async (req,res) => {
   })
   .catch(error => {
     response(res, 500, '[web_chk_number] server error.', error);
+    return;
   });
   if(certification) {
     if(ceNumber == certification.ceNumber){
@@ -22,12 +23,16 @@ module.exports = async (req,res) => {
       })
       .catch(error => {
         response(res, 500, '[web_chk_number] server error.', error);
+        return;
       })
       response(res, 200, '[web_chk_number] success.', true);
+      return;
     }else{
       response(res, 409, '[web_chk_number] wrong authentication number.', false);
+      return;
     }
   }else{
     response(res, 409, '[web_chk_number] unrequested phone number.', false);
+    return;
   }
 };

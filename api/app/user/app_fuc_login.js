@@ -1,16 +1,17 @@
 // models
-const model = require('../../models');
+const model = require('../../../models');
 const User = model.user;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 // utils
-const response = require('../util/util_response');
-const hash = require('../util/util_hash');
-const token = require('../util/util_token');
+const response = require('../../util/util_response');
+const hash = require('../../util/util_hash');
+const token = require('../../util/util_token');
 
 module.exports = async (req, res) => {
-  console.log(['web_fuc_login']);
+  console.log(['app_fuc_login']);
+  console.log(req.body);
   let {usSocialValue, usPhoneNumber, usPassword, usSocialId} = req.body;
   usSocialId = usSocialId ? usSocialId : 0;
   usPhoneNumber = usPhoneNumber ? usPhoneNumber : '';
@@ -24,10 +25,9 @@ module.exports = async (req, res) => {
     },
   })
   .catch(error => {
-    response(res, 500, '[web_fuc_login] server error.', error);
+    response(res, 500, '[app_fuc_login] server error.', error);
     return;
   });
-  console.log(user);
   let usJwtToken;
   if(user){
     if(usSocialValue == 0){
@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
       let _usPassword = user.usPassword;
       let chk = await hash.compare(usPassword, _usPassword)
       .catch(error => {
-        response(res, 500, '[web_fuc_login] server error.', error);
+        response(res, 500, '[app_fuc_login] server error.', error);
         return;
       });
       if(chk){
@@ -46,11 +46,11 @@ module.exports = async (req, res) => {
           where: {usSocialValue, usPhoneNumber}
         })
         .catch(error => {
-          response(res, 500, '[web_fuc_login] server error.', error);
+          response(res, 500, '[app_fuc_login] server error.', error);
           return;
         });
       }else{
-        response(res, 409, '[web_fuc_login] ID or password error.', null);
+        response(res, 409, '[app_fuc_login] ID or password error.', null);
         return;
       }
     }else{
@@ -62,16 +62,16 @@ module.exports = async (req, res) => {
         where: {usSocialValue, usSocialId}
       })
       .catch(error => {
-        response(res, 500, '[web_fuc_login] server error.', error);
+        response(res, 500, '[app_fuc_login] server error.', error);
         return;
       });
     }
   }else{
-    response(res, 409, '[web_fuc_login] ID or password error.', null);
+    response(res, 409, '[app_fuc_login] ID or password error.', null);
     return;
   }
   user.usJwtToken = usJwtToken;
-  response(res, 200, '[web_fuc_login] success', user);
+  response(res, 200, '[app_fuc_login] success', user);
   return;
 }
 

@@ -31,8 +31,10 @@ module.exports = async (req, res) => {
       });
     }
     response(res, 200, "[web_fuc_sms] sended sms.", randomNumber);
+    return;
   }else{
     response(res, 500, '[web_fuc_sms] server error.', null);
+    return;
   }
 };
     

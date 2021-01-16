@@ -13,11 +13,14 @@ module.exports = async (req, res) => {
   })
   .catch(error => {
     response(res, 500, '[web_chk_token] server error.', error);
+    return;
   });
   if(!user) {
     response(res, 409, '[web_chk_token] invalid token.');
+    return;
   } else {
     response(res, 200, '[web_chk_token] success', user);
+    return;
   }
 }
 

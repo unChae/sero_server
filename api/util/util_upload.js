@@ -1,3 +1,7 @@
+// models
+const model = require('../../models');
+const User = model.User;
+
 // modules
 const multer = require('multer');
 const multerS3 = require('multer-s3-transform');
@@ -18,80 +22,78 @@ const storage = multerS3({
   contentType: multerS3.AUTO_CONTENT_TYPE,
   acl: 'public-read', 
   shouldTransform: function (req, file, cb) {
-    let {usPhoneNumber, poId} = req.body;
+    let {usSocialValue, usPhoneNumber, usId} = req.body;
     let fileName = file.fieldname;
     let date = moment().format('YYYYMMDDHHmmss');
-    let type = file.mimetype;
-    type = type.split('/')[1];
-    if(!type) {
-      type = file.mimetype;
-    }
     switch(fileName){
       case 'poPhoto':
-        payload = `${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.png`;
+        payload = `post/${usId}/${date}${fileName}.png`;
+        break;
+      case 'poContentPhoto':
+        payload = `post/${usId}/${date}${fileName}.png`;
         break;
       case 'poRecord':
-        payload = `${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.png`;
+        payload = `post/${usId}/${date}${fileName}.wav`;
         break;
       case 'usPhoto':
-        payload = `${usPhoneNumber}/user/${file.fieldname}.png`;
+        payload = `user/${usPhoneNumber}/${usSocialValue}v${date}${fileName}.png`;
         break;
+    }
+    if(fileName == 'poRecord'){
+      return cb(null, false);
     }
     cb(null, payload);
   },
   transforms: [{
     id: 'original',
     key: function (req, file, cb) {
-      let {usPhoneNumber, poId} = req.body;
+      let {usSocialValue, usPhoneNumber, usId} = req.body;
       let fileName = file.fieldname;
       let date = moment().format('YYYYMMDDHHmmss');
-      let type = file.mimetype;
-      type = type.split('/')[1];
-      if(!type) {
-        type = file.mimetype;
-      }
       switch(fileName){
         case 'poPhoto':
-          payload = `${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.png`;
+          payload = `post/${usId}/${date}${fileName}.png`;
+          break;
+        case 'poContentPhoto':
+          payload = `post/${usId}/${date}${fileName}.png`;
           break;
         case 'poRecord':
-          payload = `${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.png`;
+          payload = `post/${usId}/${date}${fileName}.wav`;
           break;
         case 'usPhoto':
-          payload = `${usPhoneNumber}/user/${file.fieldname}.png`;
+          payload = `user/${usPhoneNumber}/${usSocialValue}v${date}v${fileName}.png`;
           break;
       }
       cb(null, payload);
     },
     transform: function (req, file, cb) {
-      cb(null, sharp())
+      cb(null, sharp());
     }
   }, {
     id: 'thumbnail',
       key: function (req, file, cb) {
-      let {usPhoneNumber, poId} = req.body;
+      let {usSocialValue, usPhoneNumber, usId} = req.body;
       let fileName = file.fieldname;
+      console.log(fileName)
       let date = moment().format('YYYYMMDDHHmmss');
-      let type = file.mimetype;
-      type = type.split('/')[1];
-      if(!type) {
-        type = file.mimetype;
-      }
       switch(fileName){
         case 'poPhoto':
-          payload = `resized/${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.png`;
+          payload = `resized/post/${usId}/${date}${fileName}.png`;
+          break;
+        case 'poContentPhoto':
+          payload = `resized/post/${usId}/${date}${fileName}.png`;
           break;
         case 'poRecord':
-          payload = `resized/${usPhoneNumber}/post/${poId}/${date}${file.fieldname}.png`;
+          payload = `resized/post/${usId}/${date}${fileName}.wav`;
           break;
         case 'usPhoto':
-          payload = `resized/${usPhoneNumber}/user/${file.fieldname}.png`;
+          payload = `resized/user/${usPhoneNumber}/${usSocialValue}v${date}${fileName}.png`;
           break;
       }
       cb(null, payload);
     },
     transform: function (req, file, cb) {
-      cb(null, sharp().resize(100, 100))
+      cb(null, sharp().resize(300, 300));
     }
   }]
 });

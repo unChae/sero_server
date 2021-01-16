@@ -12,5 +12,7 @@ module.exports = (router) => {
   router.post('/web_fuc_regist', s3.upload.array('usPhoto'), api.web_fuc_regist);
   // 토큰값 확인
   router.post('/web_chk_token', api.web_chk_token);
+  // 소셜 로그인에서 회원가입 해야할지 말지
+  router.post('/web_chk_registed', api.web_chk_registed);
   return router;
 };

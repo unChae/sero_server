@@ -14,6 +14,7 @@ module.exports = async (req,res) => {
   })
   .catch(error => {
     response(res, 500, '[app_chk_number] server error.', error);
+    return;
   });
   if(certification) {
     if(ceNumber == certification.ceNumber){
@@ -22,12 +23,16 @@ module.exports = async (req,res) => {
       })
       .catch(error => {
         response(res, 500, '[app_chk_number] server error.', error);
+        return;
       })
       response(res, 200, '[app_chk_number] success.', true);
+      return;
     }else{
       response(res, 409, '[app_chk_number] wrong authentication number.', false);
+      return;
     }
   }else{
     response(res, 409, '[app_chk_number] unrequested phone number.', false);
+    return;
   }
 };
