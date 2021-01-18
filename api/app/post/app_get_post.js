@@ -16,6 +16,6 @@ module.exports = async (req, res) => {
     response(res, 500, '[app_get_post] server error.', error);
     return;
   });
-  response(res, 200, '[app_get_post] success', post);
+  response(res, 200, '[app_get_post] success.', post);
   return;
 }

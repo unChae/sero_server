@@ -1,5 +1,6 @@
 const userApi = require('../api/app/user');
 const postApi = require('../api/app/post');
+const addressApi = require('../api/app/address');
 
 const s3 = require("../api/util/util_upload");
 
@@ -21,5 +22,19 @@ module.exports = (router) => {
   router.post('/app_get_received', postApi.app_get_received);
   // 엽서 데이터 반환
   router.post('/app_get_post', postApi.app_get_post);
+  // 엽서 삭제
+  router.post('/app_del_post', postApi.app_del_post);
+  // 전송한 엽서 조회
+  router.post('/app_get_sended', postApi.app_get_sended);
+  // 보낸 받은 엽서 갯 수
+  router.post('/app_get_count', postApi.app_get_count);
+  
+  // 주소 삭제
+  router.post('/app_del_address', addressApi.app_del_address);
+  // 주소 등록
+  router.post('/app_get_address', addressApi.app_get_address);
+  // 주소 데이터 반환
+  router.post('/app_set_address', addressApi.app_set_address);
+
   return router;
 };

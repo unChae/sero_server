@@ -14,5 +14,8 @@ module.exports = (router) => {
   router.post('/web_chk_token', api.web_chk_token);
   // 소셜 로그인에서 회원가입 해야할지 말지
   router.post('/web_chk_registed', api.web_chk_registed);
+  
+  // 관리자 테스트 반환
+  router.post('/web_get_task', api.web_get_task);
   return router;
 };

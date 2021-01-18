@@ -11,7 +11,6 @@ const token = require('../../util/util_token');
 
 module.exports = async (req, res) => {
   console.log(['app_fuc_login']);
-  console.log(req.body);
   let {usSocialValue, usPhoneNumber, usPassword, usSocialId} = req.body;
   usSocialId = usSocialId ? usSocialId : 0;
   usPhoneNumber = usPhoneNumber ? usPhoneNumber : '';
@@ -67,7 +66,7 @@ module.exports = async (req, res) => {
       });
     }
   }else{
-    response(res, 409, '[app_fuc_login] ID or password error.', null);
+    response(res, 409, '[app_fuc_login] not exist user.', null);
     return;
   }
   user.usJwtToken = usJwtToken;

@@ -74,7 +74,6 @@ const storage = multerS3({
       key: function (req, file, cb) {
       let {usSocialValue, usPhoneNumber, usId} = req.body;
       let fileName = file.fieldname;
-      console.log(fileName)
       let date = moment().format('YYYYMMDDHHmmss');
       switch(fileName){
         case 'poPhoto':

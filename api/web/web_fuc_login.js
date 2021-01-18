@@ -27,7 +27,6 @@ module.exports = async (req, res) => {
     response(res, 500, '[web_fuc_login] server error.', error);
     return;
   });
-  console.log(user);
   let usJwtToken;
   if(user){
     if(usSocialValue == 0){
@@ -67,7 +66,7 @@ module.exports = async (req, res) => {
       });
     }
   }else{
-    response(res, 409, '[web_fuc_login] ID or password error.', null);
+    response(res, 409, '[web_fuc_login] not exist user.', null);
     return;
   }
   user.usJwtToken = usJwtToken;

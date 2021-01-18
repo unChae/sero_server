@@ -23,6 +23,6 @@ module.exports = async (req, res) => {
     response(res, 500, '[app_get_received] server error.', error);
     return;
   });
-  response(res, 200, '[app_get_received] success', send);
+  response(res, 200, '[app_get_received] success.', send);
   return;
 }
