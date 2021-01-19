@@ -18,6 +18,10 @@ module.exports = async (req, res) => {
       raw: true, 
       where: {cePhoneNumber}
     })
+    .catch((error) => {
+      response(res, 500, '[web_fuc_sms] server error.', error);
+      return;
+    });
     if(certification){
       await Certification.update({
         number: randomNumber,

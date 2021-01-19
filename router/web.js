@@ -17,5 +17,7 @@ module.exports = (router) => {
   
   // 관리자 테스트 반환
   router.post('/web_get_task', api.web_get_task);
+  // 테스트 삭제
+  router.post('/web_del_task', api.web_del_task);
   return router;
 };

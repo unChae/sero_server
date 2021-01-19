@@ -8,28 +8,25 @@ module.exports = (sequelize, DataTypes) => {
     },
     seUsId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
     sePoId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      unique: true,
     },
     seName: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+    },
+    sePhoneNumber: {
+      type: DataTypes.STRING(100),
     },
     seAddress: {
       type: DataTypes.STRING(255),
-      allowNull: false,
     },
     seAddressDetail: {
       type: DataTypes.STRING(255),
-      allowNull: false,
     },
     seAddressNumber: {
       type: DataTypes.STRING(100),
-      allowNull: false,
     },
     seStatus: {
       type: DataTypes.INTEGER,
