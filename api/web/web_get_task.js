@@ -10,14 +10,14 @@ const response = require('../util/util_response');
 
 module.exports = async (req, res) => {
   console.log(['web_get_task']);
+  console.log(req.body)
   let {searchText, target, taskState} = req.body;
-  console.log(req.body);
   let task = []
   switch (target) {
     case 0:
       task = await Send.findAll({
         include: [{model: Post}],
-        order: [['createdAt','DESC']]
+        order: [['createdAt','DESC']],
       })
       .catch(error => {
         response(res, 500, '[web_get_task] server error.', error);
@@ -27,12 +27,10 @@ module.exports = async (req, res) => {
     case 1:
       task = await Send.findAll({
         where: {
-          [Op.or]: [{
-            of_id: {[Op.like]: '%' + searchText + '%'},
-          }],
+          seId: searchText,
         },
         include: [{model: Post}],
-        order: [['createdAt','DESC']]
+        order: [['createdAt','DESC']],
       })
       .catch(error => {
         response(res, 500, '[web_get_task] server error.', error);
@@ -41,13 +39,14 @@ module.exports = async (req, res) => {
       break;
     case 2:
       task = await Send.findAll({
-        where: {
-          [Op.or]: [{
-            of_us_id: {[Op.like]: '%' + searchText + '%'},
-          }],
-        },
+      where: {
+        [Op.or]: [
+          {seAddress: {[Op.like]: '%' + searchText + '%'},},
+          {seAddressDetail: {[Op.like]: '%' + searchText + '%'},},
+        ],
+      },
         include: [{model: Post}],
-        order: [['createdAt','DESC']]
+        order: [['createdAt','DESC']],
       })
       .catch(error => {
         response(res, 500, '[web_get_task] server error.', error);

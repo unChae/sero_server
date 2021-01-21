@@ -57,7 +57,7 @@ del 데이터 삭제
     - ~~[app_get_post]엽서 데이터 반환~~
     - ~~[app_get_received]받은 엽서 리스트 반환~~
     - ~~[app_get_sended]전송한 엽서 리스트 반환~~
-    - [app_fuc_send]엽서 전송 **Topic**
+    - ~~[app_fuc_send]엽서 전송~~
     - [app_upt_status]전송 된 엽서 상태 변경
   - **주소**
     - ~~[app_get_address]주소 반환~~
@@ -71,4 +71,4 @@ del 데이터 삭제
     - ~~[util_upload]이미지 업로드~~
     - ~~[util_sms]문자 전송~~
     - ~~[util_token]토큰 생성~~
-    - [util_notify]fcm 알림 전송
+    - ~~[util_notify]fcm 알림 전송~~

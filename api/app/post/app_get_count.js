@@ -10,7 +10,7 @@ module.exports = async (req, res) =>{
   console.log(['app_get_count']);
   let {usId} = req.body;
   // sended post count
-  let sended = Send.findAndCountAll({
+  let sended = await Send.findAndCountAll({
     include: [{
       model: Post,
       where: {poUsId: usId}
@@ -29,7 +29,7 @@ module.exports = async (req, res) =>{
     return;
   });
   let count = {
-    "sendedPost": sended.length,
+    "sendedPost": sended.count,
     "receivedPost": received.count,
   }
   response(res, 200,"[app_get_count] success.", count);

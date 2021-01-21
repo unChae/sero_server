@@ -20,19 +20,12 @@ module.exports = async (req,res) => {
   let send = [];
   for(let item of post){
     let _send = await Send.findOne({
-      raw: true,
       where: {sePoId: item.poId},
+      include:[{
+        model: Post,
+      }],
     })
     if(_send) send.push(_send);
-  }
-  for(let item of send){
-    item.post = await Post.findOne({
-      where : {poId: item.sePoId}
-    })
-    .catch(error => {
-      response(res, 500, '[app_get_sended] server error.', error);
-      return;
-    });
   }
   response(res, 200, "[app_get_sended] success.", send);
 };

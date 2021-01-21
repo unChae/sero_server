@@ -1,6 +1,5 @@
 // models
 const model = require("../../../models");
-const Post = model.post;
 const Send = model.send;
 const User = model.user;
 
@@ -12,7 +11,7 @@ const fcm = require("../../util/util_notify");
 module.exports = async (req,res) => {
   console.log(['app_fuc_send']);
   let {poId, seName, seAddress, seAddressDetail, seAddressNumber, usPhoneNumber} = req.body;
-  if(usPhoneNumber){
+  if(!usPhoneNumber){
     // offline send
     await Send.create({
         sePoId: poId,
@@ -30,7 +29,7 @@ module.exports = async (req,res) => {
     // online send
     let user = await User.findOne({
       raw: true,
-      where: {usPhoneNumber}
+      where: {usPhoneNumber},
     })
     .catch(error => {
       response(res, 500, '[app_fuc_send] server error.', error);
@@ -39,27 +38,35 @@ module.exports = async (req,res) => {
     if(user){
       // user exist
       await Send.create({
-          sePoId: poId,
-          seUsId: user.usId,
-          seName: user.usName,
-          seAddress: user.usAddress,
-          seAddressDetail: user.usAddressDetail,
-          seAddressNumber: user.usAddressNumber,
+        sePoId: poId,
+        seUsId: user.usId,
+        seName: user.usName,
+        sePhoneNumber: usPhoneNumber,
+        seAddress: user.usAddress,
+        seAddressDetail: user.usAddressDetail,
+        seAddressNumber: user.usAddressNumber,
       })
       .catch(error => {
         response(res, 500, '[app_fuc_send] server error.', error);
         return;
       });
-      await fcm.send(user.us_fcm_token, res)
-      .catch(error => {
+      if(user.usFcmToken != null){
+        await fcm.send(user.usFcmToken)
+        .catch(error => {
         response(res, 500, '[app_fuc_send] server error.', error);
         return;
-      });
+        });
+      }
     }else{
       // none user
       let send = await Send.create({
         sePoId: poId,
+        sePhoneNumber: usPhoneNumber,
       })
+      .catch(error => {
+        response(res, 500, '[app_fuc_send] server error.', error);
+        return;
+      });
       await sms.setData(usPhoneNumber, '엽서가 도착했습니다.\n사이트에 주소를 입력해주시면 엽서가 전송됩니다.\nhttps://seropost.com/' + send.seId);
       await sms.sendData();
     }

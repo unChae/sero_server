@@ -11,7 +11,7 @@ module.exports = (router) => {
   // 인증번호 확인
   router.post('/app_chk_number', userApi.app_chk_number);
   // 회원가입
-  router.post('/app_set_user', s3.upload.array('usPhoto'), userApi.app_set_user);
+  router.post('/app_set_user', s3.userUpload.array('usPhoto'), userApi.app_set_user);
   // 로그인
   router.post('/app_fuc_login', userApi.app_fuc_login);
   // 토큰 체크
@@ -24,7 +24,7 @@ module.exports = (router) => {
   router.post('/app_upt_user', userApi.app_upt_user);
   
   // 엽서 제작
-  router.post('/app_set_post', s3.upload.fields([{name : 'poPhoto'}, {name : 'poContentPhoto'}, {name : 'poRecord'}]), postApi.app_set_post);
+  router.post('/app_set_post', s3.postUpload.fields([{name : 'poPhoto'}, {name : 'poContentPhoto'}, {name : 'poRecord'}]), postApi.app_set_post);
   // 받은 엽서 디자인
   router.post('/app_get_received', postApi.app_get_received);
   // 엽서 데이터 반환
@@ -37,6 +37,8 @@ module.exports = (router) => {
   router.post('/app_get_count', postApi.app_get_count);
   // 엽서 전송
   router.post('/app_fuc_send', postApi.app_fuc_send);
+  // 받은 엽서 수락
+  router.post('/app_upt_state', postApi.app_upt_state);
   
   // 주소 삭제
   router.post('/app_del_address', addressApi.app_del_address);

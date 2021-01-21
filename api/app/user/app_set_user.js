@@ -9,7 +9,6 @@ const hash = require('../../util/util_hash');
 module.exports = async (req, res) => {
   console.log(['app_set_user']);
   let {usSocialValue, usPhoneNumber, usName, usAddress, usAddressDetail, usAddressNumber, usPassword, usSocialId} = req.body;
-  console.log(req.body);
   let user;
   let usPhoto = req.files[0].transforms[0].location.split('https://seropost-data.s3.ap-northeast-2.amazonaws.com/')[1];
   user = await User.findOne({

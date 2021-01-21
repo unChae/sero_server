@@ -17,9 +17,9 @@ module.exports = {
       message.to = usFcmToken;
       fcm.send(message, function(err, res){
         if (err) {
-          reject(res);
+          reject(false);
         } else {
-          resolve(res);
+          resolve(true);
         }
       });
     });

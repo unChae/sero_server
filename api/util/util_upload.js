@@ -16,13 +16,13 @@ const s3 = new AWS.S3({
 });
 let payload = ''
 
-const storage = multerS3({
+const postStorage = multerS3({
   s3,
   bucket: process.env.AWS_S3_BUCKET,
   contentType: multerS3.AUTO_CONTENT_TYPE,
   acl: 'public-read', 
   shouldTransform: function (req, file, cb) {
-    let {usSocialValue, usPhoneNumber, usId} = req.body;
+    let {usId} = req.body;
     let fileName = file.fieldname;
     let date = moment().format('YYYYMMDDHHmmss');
     switch(fileName){
@@ -35,9 +35,6 @@ const storage = multerS3({
       case 'poRecord':
         payload = `post/${usId}/${date}${fileName}.wav`;
         break;
-      case 'usPhoto':
-        payload = `user/${usPhoneNumber}/${usSocialValue}v${date}${fileName}.png`;
-        break;
     }
     if(fileName == 'poRecord'){
       return cb(null, false);
@@ -47,7 +44,7 @@ const storage = multerS3({
   transforms: [{
     id: 'original',
     key: function (req, file, cb) {
-      let {usSocialValue, usPhoneNumber, usId} = req.body;
+      let {usId} = req.body;
       let fileName = file.fieldname;
       let date = moment().format('YYYYMMDDHHmmss');
       switch(fileName){
@@ -60,6 +57,81 @@ const storage = multerS3({
         case 'poRecord':
           payload = `post/${usId}/${date}${fileName}.wav`;
           break;
+      }
+      cb(null, payload);
+    },
+    transform: function (req, file, cb) {
+      cb(null, sharp());
+    }
+  }, {
+    id: 'vertical',
+      key: function (req, file, cb) {
+      let {usId} = req.body;
+      let fileName = file.fieldname;
+      let date = moment().format('YYYYMMDDHHmmss');
+      switch(fileName){
+        case 'poPhoto':
+          payload = `resized/vertical/post/${usId}/${date}${fileName}.png`;
+          break;
+        case 'poContentPhoto':
+          payload = `resized/vertical/post/${usId}/${date}${fileName}.png`;
+          break;
+      }
+      cb(null, payload);
+    },
+    transform: function (req, file, cb) {
+      cb(null, sharp().resize(200));
+    }
+  }, {
+    id: 'app',
+      key: function (req, file, cb) {
+      let {usId} = req.body;
+      let fileName = file.fieldname;
+      let date = moment().format('YYYYMMDDHHmmss');
+      switch(fileName){
+        case 'poPhoto':
+          payload = `resized/app/post/${usId}/${date}${fileName}.png`;
+          break;
+        case 'poContentPhoto':
+          payload = `resized/app/post/${usId}/${date}${fileName}.png`;
+          break;
+      }
+      cb(null, payload);
+    },
+    transform: function (req, file, cb) {
+      cb(null, sharp().resize(500));
+    }
+  }]
+});
+
+module.exports.postUpload = multer({storage:postStorage});
+
+const userStorage = multerS3({
+  s3,
+  bucket: process.env.AWS_S3_BUCKET,
+  contentType: multerS3.AUTO_CONTENT_TYPE,
+  acl: 'public-read', 
+  shouldTransform: function (req, file, cb) {
+    let {usSocialValue, usPhoneNumber} = req.body;
+    let fileName = file.fieldname;
+    let date = moment().format('YYYYMMDDHHmmss');
+    switch(fileName){
+      case 'usPhoto':
+        payload = `user/${usPhoneNumber}/${usSocialValue}v${date}${fileName}.png`;
+        break;
+    }
+    if(fileName == 'poRecord'){
+      return cb(null, false);
+    }
+    cb(null, payload);
+  },
+  transforms: [{
+    id: 'original',
+    key: function (req, file, cb) {
+      let {usSocialValue, usPhoneNumber} = req.body;
+      let fileName = file.fieldname;
+      let date = moment().format('YYYYMMDDHHmmss');
+      switch(fileName){
         case 'usPhoto':
           payload = `user/${usPhoneNumber}/${usSocialValue}v${date}v${fileName}.png`;
           break;
@@ -72,30 +144,21 @@ const storage = multerS3({
   }, {
     id: 'thumbnail',
       key: function (req, file, cb) {
-      let {usSocialValue, usPhoneNumber, usId} = req.body;
+      let {usSocialValue, usPhoneNumber} = req.body;
       let fileName = file.fieldname;
       let date = moment().format('YYYYMMDDHHmmss');
       switch(fileName){
-        case 'poPhoto':
-          payload = `resized/post/${usId}/${date}${fileName}.png`;
-          break;
-        case 'poContentPhoto':
-          payload = `resized/post/${usId}/${date}${fileName}.png`;
-          break;
-        case 'poRecord':
-          payload = `resized/post/${usId}/${date}${fileName}.wav`;
-          break;
         case 'usPhoto':
-          payload = `resized/user/${usPhoneNumber}/${usSocialValue}v${date}${fileName}.png`;
+          payload = `resized/thumbnail/user/${usPhoneNumber}/${usSocialValue}v${date}v${fileName}.png`;
           break;
       }
       cb(null, payload);
     },
     transform: function (req, file, cb) {
-      cb(null, sharp().resize(300, 300));
+      cb(null, sharp().resize(200, 200));
     }
   }]
 });
 
-module.exports.upload = multer({storage:storage});
+module.exports.userUpload = multer({storage:userStorage});
 

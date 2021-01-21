@@ -6,3 +6,6 @@ exports.web_chk_token = require('./web_chk_token');
 exports.web_chk_registed = require('./web_chk_registed');
 exports.web_get_task = require('./web_get_task');
 exports.web_del_task = require('./web_del_task');
+exports.web_upt_task = require('./web_upt_task');
+exports.web_get_question = require('./web_get_question');
+exports.web_set_question = require('./web_set_question');

@@ -9,8 +9,18 @@ module.exports = async (req, res) => {
   console.log(['app_set_post']);
   let {usId, poContent} = req.body;
   let files = req.files;
-  let poPhoto = files.poPhoto[0].transforms[1].location.split('https://seropost-data.s3.ap-northeast-2.amazonaws.com/')[1];
-  let poContentPhoto = files.poContentPhoto[0].transforms[1].location.split('https://seropost-data.s3.ap-northeast-2.amazonaws.com/')[1];
+  let poPhoto;
+  let poContentPhoto;
+  for(let i = 0; i < files.poPhoto[0].transforms.length; i++){
+    if(files.poPhoto[0].transforms[i].id == 'original'){
+      poPhoto = files.poPhoto[0].transforms[i].location.split('https://seropost-data.s3.ap-northeast-2.amazonaws.com/')[1];
+    }
+  }
+  for(let i = 0; i < files.poContentPhoto[0].transforms.length; i++){
+    if(files.poContentPhoto[0].transforms[i].id == 'original'){
+      poContentPhoto = files.poContentPhoto[0].transforms[i].location.split('https://seropost-data.s3.ap-northeast-2.amazonaws.com/')[1];
+    }
+  }
   let poRecord = 'null';
   if(files.poRecord != null){
     poRecord = files.poRecord[0].location.split('https://seropost-data.s3.ap-northeast-2.amazonaws.com/')[1];
